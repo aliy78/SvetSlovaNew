@@ -1,4 +1,4 @@
-/* 🌅 Градиентный фон */
+/* 🌅 Градиентный фон светлой темы */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -7,7 +7,7 @@ body {
   transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* 🌙 Темная тема */
+/* 🌙 Тёмная тема */
 body.dark {
   background: linear-gradient(to bottom, #0f1e2d, #1c2e45);
   color: #f0f0f0;
@@ -21,7 +21,7 @@ h1 {
   text-shadow: 0 0 6px #9dd9ff;
 }
 
-/* 📖 Стих дня / Главы */
+/* 📖 Блоки стихов и поиск */
 .verse-block,
 .verses-block {
   max-width: 800px;
@@ -38,7 +38,7 @@ body.dark .verses-block {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-/* ✨ Стихи — анимация */
+/* ✨ Стихи с анимацией */
 .verse {
   opacity: 0;
   transform: translateY(10px);
@@ -99,7 +99,51 @@ body.dark #themeToggle {
   color: #fff;
 }
 
-/* 📖 Кнопка "Читать Библию" */
+/* 🔍 Блок поиска */
+.search-block {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px auto;
+  flex-wrap: wrap;
+}
+
+#searchInput {
+  padding: 8px 12px;
+  font-size: 16px;
+  width: 250px;
+  border-radius: 5px;
+  border: 1px solid #888;
+}
+
+#searchBtn {
+  padding: 8px 16px;
+  font-size: 16px;
+  background-color: #4285f4;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+#searchBtn:hover {
+  background-color: #3367d6;
+}
+
+/* 🎯 Подсветка найденного слова */
+mark {
+  background-color: #ffeaa7;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+body.dark mark {
+  background-color: #f1c40f;
+  color: #000;
+}
+
+/* 📖 Кнопка "Читать Библию" (если есть на других страницах) */
 a button {
   background-color: #4285f4;
   color: #fff;
@@ -122,6 +166,7 @@ body.dark a button {
 body.dark a button:hover {
   background-color: #29497a;
 }
+
 
 
 
