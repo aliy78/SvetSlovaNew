@@ -1,105 +1,14 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <title>Свет Слова</title>
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <h1>Свет Слова</h1>
-  <button id="themeToggle">🌙 Темная тема</button>
-
-  <div>
-    <label for="bookSelect">Книга:</label>
-    <select id="bookSelect"></select>
-  </div>
-
-  <div>
-    <label for="chapterSelect">Глава:</label>
-    <select id="chapterSelect"></select>
-  </div>
-
-  <div id="versesContainer"></div>
-
-  <script>
-    const bookSelect = document.getElementById('bookSelect');
-    const chapterSelect = document.getElementById('chapterSelect');
-    const versesContainer = document.getElementById('versesContainer');
-    const themeToggle = document.getElementById('themeToggle');
-
-    let bibleData = {};
-
-    // Загрузка данных Библии
-    fetch('data/bible.json')
-      .then(response => response.json())
-      .then(data => {
-        bibleData = data;
-        populateBooks();
-      })
-      .catch(error => {
-        versesContainer.innerHTML = '<p>Ошибка загрузки Bible.json</p>';
-        console.error(error);
-      });
-
-    // Заполнение списка книг
-    function populateBooks() {
-      bookSelect.innerHTML = '';
-      bibleData.Books.forEach((book, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = book.BookName;
-        bookSelect.appendChild(option);
-      });
-      populateChapters();
-    }
-
-    // Заполнение списка глав
-    function populateChapters() {
-      chapterSelect.innerHTML = '';
-      const selectedBook = bibleData.Books[bookSelect.value];
-      selectedBook.Chapters.forEach((chapter, index) => {
-        const option = document.createElement('option');
-        option.value = index;
-        option.textContent = `Глава ${index + 1}`;
-        chapterSelect.appendChild(option);
-      });
-      showVerses();
-    }
-
-    // Показ стихов
-    function showVerses() {
-      versesContainer.innerHTML = '';
-      const book = bibleData.Books[bookSelect.value];
-      const chapter = book.Chapters[chapterSelect.value];
-      chapter.Verses.forEach((verse, index) => {
-        const p = document.createElement('p');
-        p.className = 'verse';
-        p.textContent = `${index + 1}. ${verse}`;
-        versesContainer.appendChild(p);
-      });
-    }
-
-    // Слушатели событий
-    bookSelect.addEventListener('change', populateChapters);
-    chapterSelect.addEventListener('change', showVerses);
-
-    // Переключение темы
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      themeToggle.textContent = isDark ? '☀️ Светлая тема' : '🌙 Темная тема';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    });
-
-    // Восстановление сохранённой темы
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-        themeToggle.textContent = '☀️ Светлая тема';
-      }
-    });
-  </script>
-</body>
-</html>
+function showVerses() {
+  versesContainer.innerHTML = '';
+  const book = bibleData.Books[bookSelect.value];
+  const chapter = book.Chapters[chapterSelect.value];
+  chapter.Verses.forEach((verseObj, index) => {
+    const p = document.createElement('p');
+    p.className = 'verse';
+    const verseText = verseObj.Text;
+    const verseNumber = verseObj.VerseId || (index + 1);
+    p.textContent = `${verseNumber}. ${verseText}`;
+    versesContainer.appendChild(p);
+  });
+}
 
