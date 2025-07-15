@@ -44,11 +44,17 @@
           const books = data.Books;
           const randomBookIndex = Math.floor(Math.random() * books.length);
           const book = books[randomBookIndex];
+
           const chapterIndex = Math.floor(Math.random() * book.Chapters.length);
           const chapter = book.Chapters[chapterIndex];
+
           const verseIndex = Math.floor(Math.random() * chapter.Verses.length);
-          const verseText = chapter.Verses[verseIndex];
-          const reference = `${book.BookName} ${chapterIndex + 1}:${verseIndex + 1}`;
+          const verseObj = chapter.Verses[verseIndex];
+
+          const verseText = verseObj.Text;
+          const verseNumber = verseObj.VerseId || (verseIndex + 1);
+          const reference = `${book.BookName} ${chapterIndex + 1}:${verseNumber}`;
+
           document.getElementById('dailyVerse').textContent = `${reference} — ${verseText}`;
         })
         .catch(error => {
@@ -59,3 +65,4 @@
   </script>
 </body>
 </html>
+
