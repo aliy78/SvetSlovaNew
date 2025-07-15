@@ -9,6 +9,14 @@
   <h1>📖 Чтение Библии</h1>
   <button id="themeToggle">🌙 Темная тема</button>
 
+  <!-- 🔍 Поисковый блок -->
+  <div class="search-block">
+    <input type="text" id="searchInput" placeholder="🔎 Введите слово или фразу">
+    <button id="searchBtn">Искать</button>
+  </div>
+  <div id="searchResults" class="verses-block" style="display: none;"></div>
+
+  <!-- 📋 Селекторы книги и главы -->
   <div class="selectors">
     <label for="bookSelect">Книга:</label>
     <select id="bookSelect"></select>
@@ -17,17 +25,19 @@
     <select id="chapterSelect"></select>
   </div>
 
+  <!-- 📘 Отображение стихов -->
   <div id="versesContainer" class="verses-block">
     <p>Выберите книгу и главу, чтобы увидеть стихи.</p>
   </div>
 
+  <!-- 🧠 Скрипт -->
   <script>
     let bibleData;
     const bookSelect = document.getElementById('bookSelect');
     const chapterSelect = document.getElementById('chapterSelect');
     const versesContainer = document.getElementById('versesContainer');
 
-    // Переключение темы
+    // 🌙 Переключение темы
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark');
@@ -36,6 +46,7 @@
       localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 
+    // 🌐 Загрузка данных
     window.addEventListener('DOMContentLoaded', () => {
       const savedTheme = localStorage.getItem('theme');
       if (savedTheme === 'dark') {
@@ -55,6 +66,7 @@
         });
     });
 
+    // 📋 Загрузка книг
     function loadBooks() {
       bibleData.Books.forEach((book, index) => {
         const option = document.createElement('option');
@@ -62,10 +74,10 @@
         option.textContent = book.BookName;
         bookSelect.appendChild(option);
       });
-
       bookSelect.addEventListener('change', loadChapters);
     }
 
+    // 📋 Загрузка глав
     function loadChapters() {
       chapterSelect.innerHTML = '';
       const book = bibleData.Books[bookSelect.value];
@@ -75,10 +87,10 @@
         option.textContent = `Глава ${index + 1}`;
         chapterSelect.appendChild(option);
       });
-
       chapterSelect.addEventListener('change', showVerses);
     }
 
+    // 📘 Отображение стихов
     function showVerses() {
       versesContainer.innerHTML = '';
       const book = bibleData.Books[bookSelect.value];
@@ -92,8 +104,40 @@
         versesContainer.appendChild(p);
       });
     }
+
+    // 🔍 Поиск по словам
+    document.getElementById('searchBtn').addEventListener('click', () => {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      const resultsContainer = document.getElementById('searchResults');
+      resultsContainer.innerHTML = '';
+      if (!query) return;
+
+      let results = [];
+
+      bibleData.Books.forEach(book => {
+        book.Chapters.forEach((chapter, chapterIndex) => {
+          chapter.Verses.forEach((verseObj, verseIndex) => {
+            const text = verseObj.Text.toLowerCase();
+            if (text.includes(query)) {
+              const ref = `${book.BookName} ${chapterIndex + 1}:${verseObj.VerseId || verseIndex + 1}`;
+              results.push(`<p><strong>${ref}</strong> — ${verseObj.Text}</p>`);
+            }
+          });
+        });
+      });
+
+      if (results.length) {
+        resultsContainer.innerHTML = `<h2>🔎 Найдено: ${results.length} стихов</h2>` + results.join('');
+      } else {
+        resultsContainer.innerHTML = `<p>Ничего не найдено по запросу: <em>${query}</em></p>`;
+      }
+
+      resultsContainer.style.display = 'block';
+    });
   </script>
 </body>
 </html>
+
+
 
 
