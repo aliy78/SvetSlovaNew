@@ -1,109 +1,109 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Свет Слова</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f2f2f2;
+      background-color: #fefefe;
       padding: 20px;
       color: #333;
     }
     h1 {
       text-align: center;
-      margin-bottom: 20px;
     }
     select {
       font-size: 16px;
-      margin: 10px;
       padding: 5px;
+      margin: 5px;
     }
     .verse {
-      background: #fff;
-      padding: 10px;
-      margin: 5px 0;
-      border-left: 4px solid #007acc;
+      margin: 4px 0;
+      padding: 2px 0;
     }
   </style>
 </head>
 <body>
-  <h1>Свет Слова 📖</h1>
+  <h1>📖 Свет Слова</h1>
 
-  <div style="text-align:center;">
+  <div>
+    <label for="bookSelect">Книга:</label>
     <select id="bookSelect"></select>
+  </div>
+  <div>
+    <label for="chapterSelect">Глава:</label>
     <select id="chapterSelect"></select>
   </div>
-
-  <div id="verses"></div>
+  <div id="versesContainer"></div>
 
   <script>
-    let bibleData = {};
-    let books = [];
+    let bibleData = null;
 
     async function loadBible() {
       try {
         const response = await fetch('data/bible.json');
         bibleData = await response.json();
-        books = bibleData.Books;
         populateBooks();
       } catch (error) {
-        document.getElementById("verses").innerHTML = "<p>⚠️ Не удалось загрузить Bible.json</p>";
+        document.getElementById('versesContainer').textContent =
+          'Ошибка загрузки Bible JSON: ' + error.message;
       }
     }
 
     function populateBooks() {
-      const bookSelect = document.getElementById("bookSelect");
-      bookSelect.innerHTML = "";
+      const bookSelect = document.getElementById('bookSelect');
+      bookSelect.innerHTML = '';
 
-      books.forEach((book, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.textContent = book.BookName || `Книга ${book.BookId}`;
+      bibleData.Books.forEach(book => {
+        const option = document.createElement('option');
+        option.value = book.BookId;
+        option.textContent = book.BookName;
         bookSelect.appendChild(option);
       });
 
+      bookSelect.addEventListener('change', populateChapters);
       populateChapters();
     }
 
     function populateChapters() {
-      const chapterSelect = document.getElementById("chapterSelect");
-      chapterSelect.innerHTML = "";
+      const chapterSelect = document.getElementById('chapterSelect');
+      chapterSelect.innerHTML = '';
 
-      const selectedBookIndex = document.getElementById("bookSelect").value;
-      const chapters = books[selectedBookIndex].Chapters;
+      const bookId = parseInt(document.getElementById('bookSelect').value);
+      const book = bibleData.Books.find(b => b.BookId === bookId);
 
-      chapters.forEach((chapter, index) => {
-        const option = document.createElement("option");
-        option.value = index;
-        option.textContent = `Глава ${chapter.ChapterId}`;
+      book.Chapters.forEach(chap => {
+        const option = document.createElement('option');
+        option.value = chap.ChapterId;
+        option.textContent = `Глава ${chap.ChapterId}`;
         chapterSelect.appendChild(option);
       });
 
+      chapterSelect.addEventListener('change', displayVerses);
       displayVerses();
     }
 
     function displayVerses() {
-      const versesDiv = document.getElementById("verses");
-      versesDiv.innerHTML = "";
+      const bookId = parseInt(document.getElementById('bookSelect').value);
+      const chapterId = parseInt(document.getElementById('chapterSelect').value);
 
-      const bookIndex = document.getElementById("bookSelect").value;
-      const chapterIndex = document.getElementById("chapterSelect").value;
+      const book = bibleData.Books.find(b => b.BookId === bookId);
+      const chapter = book.Chapters.find(c => c.ChapterId === chapterId);
 
-      const verses = books[bookIndex].Chapters[chapterIndex].Verses;
+      const container = document.getElementById('versesContainer');
+      container.innerHTML = '';
 
-      verses.forEach(verse => {
-        const div = document.createElement("div");
-        div.className = "verse";
-        div.innerHTML = `<strong>${verse.VerseId}</strong><br>${verse.Text}`;
-        versesDiv.appendChild(div);
+      chapter.Verses.forEach(verse => {
+        const div = document.createElement('div');
+        div.className = 'verse';
+        div.textContent = `${verse.VerseId}. ${verse.Text}`;
+        container.appendChild(div);
       });
     }
-
-    document.getElementById("bookSelect").addEventListener("change", populateChapters);
-    document.getElementById("chapterSelect").addEventListener("change", displayVerses);
 
     loadBible();
   </script>
 </body>
 </html>
+
