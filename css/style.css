@@ -1,21 +1,89 @@
+/* 🌞 Светлая тема — по умолчанию */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #fefefe;
+  color: #333;
+  padding: 20px;
+  margin: 0;
+}
+
+/* 📘 Заголовок */
+h1 {
+  font-size: 32px;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #222;
+}
+
+/* 🔽 Выпадающие списки */
+select {
+  font-size: 16px;
+  padding: 6px 10px;
+  margin: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* 📖 Стихи */
+.verse {
+  padding: 8px 12px;
+  margin: 6px 0;
+  background-color: #f2f2f2;
+  border-left: 4px solid #ccc;
+  border-radius: 4px;
+}
+
+/* 🌙 Кнопка переключения темы */
+#themeToggle {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 16px;
+  background-color: #f0f0f0;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+#themeToggle:hover {
+  background-color: #ddd;
+  transform: scale(1.05);
+}
+
+/* 🌗 Темная тема */
 body.dark {
   background-color: #121212;
   color: #f0f0f0;
 }
 
-select, button {
+body.dark h1 {
+  color: #ffffff;
+}
+
+body.dark select,
+body.dark button {
   background-color: #1e1e1e;
   color: #f0f0f0;
   border: 1px solid #444;
 }
 
-a, h1, h2, p {
-  color: #ffffff;
-}
-
-.card, .verse {
+body.dark .verse {
   background-color: #1a1a1a;
   color: #e0e0e0;
-  border: 1px solid #333;
+  border-left: 4px solid #444;
+}
+
+body.dark #themeToggle {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  box-shadow: 0 0 10px rgba(255,255,255,0.1);
+}
+
+body.dark #themeToggle:hover {
+  background-color: #333;
 }
 
