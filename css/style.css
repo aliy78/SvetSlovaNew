@@ -1,3 +1,14 @@
+body {
+  background: linear-gradient(to bottom, #e2f0ff, #ffffff);
+  color: #222;
+  transition: background 0.5s ease;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body.dark {
+  background: linear-gradient(to bottom, #0f1e2d, #1c2e45);
+  color: #f0f0f0;
+}
 /* 🌞 Светлая тема — по умолчанию */
 body {
   font-family: Arial, sans-serif;
