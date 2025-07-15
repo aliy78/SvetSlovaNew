@@ -1,1 +1,21 @@
+body.dark {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+select, button {
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border: 1px solid #444;
+}
+
+a, h1, h2, p {
+  color: #ffffff;
+}
+
+.card, .verse {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  border: 1px solid #333;
+}
 
