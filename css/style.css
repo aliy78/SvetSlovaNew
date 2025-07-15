@@ -1,4 +1,4 @@
-/* 🌅 Градиентный фон светлой темы */
+/* 🌅 Светлая тема: небесный градиент */
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
@@ -7,7 +7,7 @@ body {
   transition: background 0.5s ease, color 0.5s ease;
 }
 
-/* 🌙 Тёмная тема */
+/* 🌙 Тёмная тема: глубина и контраст */
 body.dark {
   background: linear-gradient(to bottom, #0f1e2d, #1c2e45);
   color: #f0f0f0;
@@ -16,12 +16,60 @@ body.dark {
 /* 🌟 Заголовок */
 h1 {
   text-align: center;
-  margin-top: 30px;
+  margin: 30px auto 10px;
   font-size: 32px;
   text-shadow: 0 0 6px #9dd9ff;
 }
 
-/* 📖 Блоки стихов и поиск */
+/* ⬅️ Кнопка возврата на главную */
+.home-button {
+  display: block;
+  width: max-content;
+  margin: 0 auto 20px;
+  padding: 10px 16px;
+  background-color: #89c4f4;
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 6px;
+  transition: background 0.3s;
+}
+
+.home-button:hover {
+  background-color: #5c9bd1;
+}
+
+body.dark .home-button {
+  background-color: #2e6a9e;
+}
+
+/* 📋 Селекторы книги и главы */
+.selectors {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 20px;
+}
+
+.selectors label {
+  font-weight: bold;
+}
+
+.selectors select {
+  padding: 6px 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #888;
+  background-color: #f8f8f8;
+}
+
+body.dark .selectors select {
+  background-color: #2a3b4d;
+  color: #fff;
+}
+
+/* 📖 Блоки стихов и результатов поиска */
 .verse-block,
 .verses-block {
   max-width: 800px;
@@ -38,7 +86,7 @@ body.dark .verses-block {
   background-color: rgba(0, 0, 0, 0.3);
 }
 
-/* ✨ Стихи с анимацией */
+/* ✨ Анимация появления стиха */
 .verse {
   opacity: 0;
   transform: translateY(10px);
@@ -53,53 +101,7 @@ body.dark .verses-block {
   }
 }
 
-/* 📋 Селекторы */
-.selectors {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  margin: 20px;
-}
-
-.selectors label {
-  font-weight: bold;
-  margin-right: 5px;
-}
-
-.selectors select {
-  padding: 6px 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: 1px solid #888;
-  background-color: #f8f8f8;
-}
-
-body.dark .selectors select {
-  background-color: #2a3b4d;
-  color: #fff;
-}
-
-/* 🌘 Переключатель темы */
-#themeToggle {
-  position: fixed;
-  top: 15px;
-  right: 15px;
-  padding: 8px 12px;
-  font-size: 16px;
-  background-color: #d7eaff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background 0.3s;
-}
-
-body.dark #themeToggle {
-  background-color: #33475b;
-  color: #fff;
-}
-
-/* 🔍 Блок поиска */
+/* 🔍 Поисковый блок */
 .search-block {
   display: flex;
   justify-content: center;
@@ -143,7 +145,7 @@ body.dark mark {
   color: #000;
 }
 
-/* 📖 Кнопка "Читать Библию" (если есть на других страницах) */
+/* 📖 Кнопки (например, "Читать Библию" на других страницах) */
 a button {
   background-color: #4285f4;
   color: #fff;
@@ -166,6 +168,7 @@ body.dark a button {
 body.dark a button:hover {
   background-color: #29497a;
 }
+
 
 
 
