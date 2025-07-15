@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Свет Слова</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Добро пожаловать в Свет Слова</h1>
+  <button id="themeToggle">🌙 Темная тема</button>
+
+  <div id="verseOfTheDay" class="verse-block">
+    <h2>📆 Стих дня</h2>
+    <p id="dailyVerse">Загрузка...</p>
+  </div>
+
+  <div style="text-align:center; margin-top: 30px;">
+    <a href="read.html">
+      <button style="font-size:18px; padding:12px 20px;">📖 Читать Библию</button>
+    </a>
+  </div>
+
+  <script>
+    // Переключение темы
+    const themeToggle = document.getElementById('themeToggle');
+    themeToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      const isDark = document.body.classList.contains('dark');
+      themeToggle.textContent = isDark ? '☀️ Светлая тема' : '🌙 Темная тема';
+      localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme === 'dark') {
+        document.body.classList.add('dark');
+        themeToggle.textContent = '☀️ Светлая тема';
+      }
+
+      // Загрузка стиха дня
+      fetch('data/bible.json')
+        .then(response => response.json())
+        .then(data => {
+          const books = data.Books;
+          const randomBookIndex = Math.floor(Math.random() * books.length);
+          const book = books[randomBookIndex];
+          const chapterIndex = Math.floor(Math.random() * book.Chapters.length);
+          const chapter = book.Chapters[chapterIndex];
+          const verseIndex = Math.floor(Math.random() * chapter.Verses.length);
+          const verseText = chapter.Verses[verseIndex];
+          const reference = `${book.BookName} ${chapterIndex + 1}:${verseIndex + 1}`;
+          document.getElementById('dailyVerse').textContent = `${reference} — ${verseText}`;
+        })
+        .catch(error => {
+          document.getElementById('dailyVerse').textContent = 'Не удалось загрузить стих дня.';
+          console.error(error);
+        });
+    });
+  </script>
+</body>
+</html>
