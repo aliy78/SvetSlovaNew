@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Свет Слова</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    select {
+      font-size: 16px;
+      margin: 10px;
+      padding: 5px;
+    }
+    .verse {
+      background: #fff;
+      padding: 10px;
+      margin: 5px 0;
+      border-left: 4px solid #007acc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Свет Слова 📖</h1>
+
+  <div style="text-align:center;">
+    <select id="bookSelect"></select>
+    <select id="chapterSelect"></select>
+  </div>
+
+  <div id="verses"></div>
+
+  <script>
+    let bibleData = {};
+    let books = [];
+
+    async function loadBible() {
+      try {
+        const response = await fetch('data/bible.json');
+        bibleData = await response.json();
+        books = bibleData.Books;
+        populateBooks();
+      } catch (error) {
+        document.getElementById("verses").innerHTML = "<p>⚠️ Не удалось загрузить Bible.json</p>";
+      }
+    }
+
+    function populateBooks() {
+      const bookSelect = document.getElementById("bookSelect");
+      bookSelect.innerHTML = "";
+
+      books.forEach((book, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = book.BookName || `Книга ${book.BookId}`;
+        bookSelect.appendChild(option);
+      });
+
+      populateChapters();
+    }
+
+    function populateChapters() {
+      const chapterSelect = document.getElementById("chapterSelect");
+      chapterSelect.innerHTML = "";
+
+      const selectedBookIndex = document.getElementById("bookSelect").value;
+      const chapters = books[selectedBookIndex].Chapters;
+
+      chapters.forEach((chapter, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent = `Глава ${chapter.ChapterId}`;
+        chapterSelect.appendChild(option);
+      });
+
+      displayVerses();
+    }
+
+    function displayVerses() {
+      const versesDiv = document.getElementById("verses");
+      versesDiv.innerHTML = "";
+
+      const bookIndex = document.getElementById("bookSelect").value;
+      const chapterIndex = document.getElementById("chapterSelect").value;
+
+      const verses = books[bookIndex].Chapters[chapterIndex].Verses;
+
+      verses.forEach(verse => {
+        const div = document.createElement("div");
+        div.className = "verse";
+        div.innerHTML = `<strong>${verse.VerseId}</strong><br>${verse.Text}`;
+        versesDiv.appendChild(div);
+      });
+    }
+
+    document.getElementById("bookSelect").addEventListener("change", populateChapters);
+    document.getElementById("chapterSelect").addEventListener("change", displayVerses);
+
+    loadBible();
+  </script>
+</body>
+</html>
