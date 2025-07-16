@@ -14,7 +14,6 @@ function displayRandomVerse() {
   verseEl.textContent = `${selected.ref} — ${selected.text}`;
 }
 
-// Загрузка Библии
 fetch('data/bible.json')
   .then(res => res.json())
   .then(data => {
@@ -35,7 +34,6 @@ fetch('data/bible.json')
     console.error('Ошибка загрузки bible.json:', err);
   });
 
-// Озвучка
 if (speakBtn) {
   speakBtn.addEventListener('click', () => {
     speechSynthesis.cancel();
@@ -45,14 +43,12 @@ if (speakBtn) {
   });
 }
 
-// Остановка озвучки
 if (stopBtn) {
   stopBtn.addEventListener('click', () => {
     speechSynthesis.cancel();
   });
 }
 
-// Обновление стиха
 if (refreshBtn) {
   refreshBtn.addEventListener('click', () => {
     speechSynthesis.cancel();
@@ -60,7 +56,6 @@ if (refreshBtn) {
   });
 }
 
-// Переключение темы
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark');
@@ -72,7 +67,6 @@ if (themeToggle) {
   }
 }
 
-// Отображение даты
 window.addEventListener('load', () => {
   const splash = document.getElementById('splashScreen');
   if (splash) {
@@ -88,7 +82,6 @@ window.addEventListener('load', () => {
   }
 });
 
-// Поделиться стихом
 if (shareBtn) {
   shareBtn.addEventListener('click', () => {
     const verseText = verseEl.textContent;
@@ -97,4 +90,6 @@ if (shareBtn) {
     if (choice === '1') {
       window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
     } else if (choice === '2') {
-      window.open(`https://
+      window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
+    } else {
+      alert('
