@@ -4,7 +4,15 @@ const refreshBtn = document.getElementById('refreshVerseBtn');
 const shareBtn = document.getElementById('shareVerseBtn');
 const themeToggle = document.getElementById('themeToggle');
 const dateEl = document.getElementById('currentDate');
+const dailyDate = document.getElementById('dailyDate');
 let allVerses = [];
+
+function updateDailyDate() {
+  if (!dailyDate) return;
+  const today = new Date();
+  const options = { year: 'numeric', month: 'long', day: 'numeric' };
+  dailyDate.textContent = `Сегодня — ${today.toLocaleDateString('ru-RU', options)}`;
+}
 
 function displayRandomVerse() {
   if (allVerses.length === 0) {
@@ -57,6 +65,7 @@ if (refreshBtn) {
   refreshBtn.addEventListener('click', () => {
     speechSynthesis.cancel();
     displayRandomVerse();
+    updateDailyDate();
   });
 }
 
@@ -89,17 +98,4 @@ if (themeToggle) {
 }
 
 // Заставка + дата
-window.addEventListener('load', () => {
-  const splash = document.getElementById('splashScreen');
-  if (splash) {
-    setTimeout(() => {
-      splash.style.display = 'none';
-    }, 2500);
-  }
-
-  if (dateEl) {
-    const today = new Date();
-    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-    dateEl.textContent = today.toLocaleDateString('ru-RU', options);
-  }
-});
+window.addEvent
