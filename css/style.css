@@ -44,6 +44,13 @@ button:hover {
   background-color: #219150;
 }
 
+#shareVerseBtn {
+  background-color: #e67e22;
+}
+#shareVerseBtn:hover {
+  background-color: #d35400;
+}
+
 #splashScreen {
   position: fixed;
   top: 0; left: 0;
@@ -88,6 +95,7 @@ button:hover {
     visibility: hidden;
   }
 }
+
 
 
 
