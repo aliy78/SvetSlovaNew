@@ -58,11 +58,10 @@ button:hover {
   align-items: center;
   gap: 8px;
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  transition: transform 0.2s, background-color 0.2s;
+  transition: transform 0.2s;
 }
 #shareVerseBtn:hover {
   transform: scale(1.03);
-  background: linear-gradient(to right, #e67e22, #c0392b);
 }
 #shareVerseBtn .icon {
   font-size: 1.2em;
@@ -103,7 +102,6 @@ button:hover {
   font-size: 1em;
   color: #f9f9f9;
   margin-bottom: 10px;
-  text-align: center;
 }
 
 @keyframes fadeOut {
