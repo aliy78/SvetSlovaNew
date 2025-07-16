@@ -18,7 +18,9 @@ fetch('data/bible.json')
   .then(res => res.json())
   .then(data => {
     data.Books.forEach(book => {
+      if (!book.Chapters) return;
       book.Chapters.forEach(chapter => {
+        if (!chapter.Verses) return;
         chapter.Verses.forEach(verse => {
           allVerses.push({
             ref: `${book.BookName} ${chapter.ChapterId}:${verse.VerseId}`,
@@ -82,14 +84,4 @@ window.addEventListener('load', () => {
   }
 });
 
-if (shareBtn) {
-  shareBtn.addEventListener('click', () => {
-    const verseText = verseEl.textContent;
-    const encoded = encodeURIComponent(verseText);
-    const choice = prompt('Отправить через:\n1 — WhatsApp\n2 — Telegram');
-    if (choice === '1') {
-      window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
-    } else if (choice === '2') {
-      window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
-    } else {
-      alert('
+if
