@@ -3,22 +3,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <title>Свет Слова</title>
 
-  <!-- 💡 Манифест и иконка -->
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="assets/icon-192.png" type="image/png" />
-
-  <!-- 🌗 Стили -->
+  <link rel="icon" href="assets/icon-192.png" />
   <link rel="stylesheet" href="css/style.css" />
 
-  <!-- 💻 Скрипты -->
   <script src="js/main.js" defer></script>
 </head>
 <body>
-  <header>
+  <!-- Заставка -->
+  <div id="splashScreen">
     <h1>📘 Свет Слова</h1>
+    <p>Загрузка...</p>
+  </div>
+
+  <header>
+    <h1>Свет Слова</h1>
     <button id="themeToggle">🌙 Сменить тему</button>
   </header>
 
@@ -26,11 +27,17 @@
     <section id="dailySection">
       <h2>📖 Стих дня</h2>
       <p id="dailyVerse">Загрузка стиха...</p>
-
       <div class="controls">
-        <button id="speakVerseBtn">🔊 Озвучить стих</button>
-        <button id="stopSpeechBtn">⏹️ Остановить озвучку</button>
+        <button id="speakVerseBtn">🔊 Озвучить</button>
+        <button id="stopSpeechBtn">⏹️ Остановить</button>
       </div>
+    </section>
+
+    <section id="readSection">
+      <h2>📚 Исследовать Библию</h2>
+      <a href="read.html">
+        <button id="readBibleBtn">📖 Читать Библию</button>
+      </a>
     </section>
   </main>
 
@@ -39,6 +46,7 @@
   </footer>
 </body>
 </html>
+
 
 
 
