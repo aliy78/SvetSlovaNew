@@ -1,71 +1,56 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Свет Слова</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="manifest" href="manifest.json">
-  <link rel="icon" href="assets/icon-192.png">
+
+  <!-- 🎨 Стили -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- 📲 PWA Manifest -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#222" />
+
+  <!-- 🖼️ Иконка для браузера -->
+  <link rel="icon" href="assets/icon-192.png" type="image/png" />
+
+  <!-- 🍎 iOS Splash -->
+  <link rel="apple-touch-icon" href="assets/icon-192.png" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="Свет Слова" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </head>
 <body>
-  <h1>📘 Добро пожаловать в Свет Слова</h1>
+  <main>
+    <h1>📘 Свет Слова</h1>
 
-  <a href="read.html"><button>📖 Читать Библию</button></a>
+    <section id="controls">
+      <button id="themeToggle">🌙 Переключить тему</button>
+      <a href="read.html"><button>📖 Читать Библию</button></a>
+    </section>
 
-  <button id="themeToggle">🌙 Темная тема</button>
+    <section id="verseSection">
+      <h2>✨ Стих дня</h2>
+      <p id="dailyVerse">Загрузка стиха...</p>
+      <button id="speakVerseBtn">🔊 Озвучить стих</button>
+    </section>
+  </main>
 
-  <div class="verse-block" id="verseOfTheDay">
-    <h2>✨ Стих дня</h2>
-    <p class="verse" id="dailyVerse">Загрузка стиха...</p>
-    <button id="speakVerseBtn">🔊 Озвучить стих</button>
-  </div>
+  <!-- 🔧 Скрипты -->
+  <script src="js/main.js" defer></script>
 
+  <!-- ⚙️ Service Worker -->
   <script>
-    // 🌙 Переключение темы
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      document.body.classList.toggle('dark');
-      const isDark = document.body.classList.contains('dark');
-      themeToggle.textContent = isDark ? '☀️ Светлая тема' : '🌙 Темная тема';
-      localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    });
-
-    window.addEventListener('DOMContentLoaded', () => {
-      const savedTheme = localStorage.getItem('theme');
-      if (savedTheme === 'dark') {
-        document.body.classList.add('dark');
-        themeToggle.textContent = '☀️ Светлая тема';
-      }
-
-      // 📖 Загрузка bible.json
-      fetch('data/bible.json')
-        .then(res => res.json())
-        .then(data => {
-          const allVerses = [];
-          data.Books.forEach(book => {
-            book.Chapters.forEach((chapter, chIdx) => {
-              chapter.Verses.forEach((v, vIdx) => {
-                const verseText = `${book.BookName} ${chIdx + 1}:${v.VerseId || vIdx + 1} — ${v.Text}`;
-                allVerses.push(verseText);
-              });
-            });
-          });
-          const random = allVerses[Math.floor(Math.random() * allVerses.length)];
-          document.getElementById('dailyVerse').textContent = random;
-        });
-    });
-
-    // 🔊 Озвучка стиха
-    document.getElementById('speakVerseBtn').addEventListener('click', () => {
-      const verseText = document.getElementById('dailyVerse').textContent;
-      const utter = new SpeechSynthesisUtterance(verseText);
-      utter.lang = 'ru-RU';
-      utter.rate = 1;
-      speechSynthesis.speak(utter);
-    });
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log('✅ Service Worker зарегистрирован'))
+        .catch(err => console.error('❌ Ошибка SW:', err));
+    }
   </script>
 </body>
 </html>
+
 
 
 
