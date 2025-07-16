@@ -5,17 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Свет Слова</title>
 
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="assets/icon-192.png" />
+  <link rel="icon" href="assets/icon-192.png" type="image/png" />
   <link rel="stylesheet" href="css/style.css" />
-
   <script src="js/main.js" defer></script>
 </head>
 <body>
-  <!-- Заставка -->
+
+  <!-- Заставка с цитатой -->
   <div id="splashScreen">
     <h1>📘 Свет Слова</h1>
     <p>Загрузка...</p>
+    <blockquote class="verseQuote">
+      «В начале было Слово, и Слово было у Бога, и Слово было Бог»
+      <br><span>— Иоанн 1:1</span>
+    </blockquote>
   </div>
 
   <header>
@@ -30,6 +33,7 @@
       <div class="controls">
         <button id="speakVerseBtn">🔊 Озвучить</button>
         <button id="stopSpeechBtn">⏹️ Остановить</button>
+        <button id="refreshVerseBtn">🔁 Обновить стих</button>
       </div>
     </section>
 
@@ -44,8 +48,10 @@
   <footer>
     <p>© 2025 Свет Слова</p>
   </footer>
+
 </body>
 </html>
+
 
 
 
