@@ -1,22 +1,27 @@
 const verseEl = document.getElementById('dailyVerse');
 const speakBtn = document.getElementById('speakVerseBtn');
-const stopBtn = document.getElementById('stopSpeechBtn');
-const themeToggle = document.getElementById('themeToggle');
 const refreshBtn = document.getElementById('refreshVerseBtn');
 const shareBtn = document.getElementById('shareVerseBtn');
+const themeToggle = document.getElementById('themeToggle');
 const dateEl = document.getElementById('currentDate');
 let allVerses = [];
 
 function displayRandomVerse() {
-  if (allVerses.length === 0) return;
+  if (allVerses.length === 0) {
+    verseEl.textContent = 'Нет доступных стихов.';
+    return;
+  }
   const randomIndex = Math.floor(Math.random() * allVerses.length);
   const selected = allVerses[randomIndex];
   verseEl.textContent = `${selected.ref} — ${selected.text}`;
 }
 
+// Загрузка полной Библии
 fetch('data/bible.json')
   .then(res => res.json())
   .then(data => {
+    if (!data.Books) throw new Error('Нет поля Books');
+
     data.Books.forEach(book => {
       if (!book.Chapters) return;
       book.Chapters.forEach(chapter => {
@@ -29,6 +34,7 @@ fetch('data/bible.json')
         });
       });
     });
+
     displayRandomVerse();
   })
   .catch(err => {
@@ -36,6 +42,7 @@ fetch('data/bible.json')
     console.error('Ошибка загрузки bible.json:', err);
   });
 
+// Озвучка стиха
 if (speakBtn) {
   speakBtn.addEventListener('click', () => {
     speechSynthesis.cancel();
@@ -45,12 +52,7 @@ if (speakBtn) {
   });
 }
 
-if (stopBtn) {
-  stopBtn.addEventListener('click', () => {
-    speechSynthesis.cancel();
-  });
-}
-
+// Обновить стих
 if (refreshBtn) {
   refreshBtn.addEventListener('click', () => {
     speechSynthesis.cancel();
@@ -58,6 +60,23 @@ if (refreshBtn) {
   });
 }
 
+// Поделиться
+if (shareBtn) {
+  shareBtn.addEventListener('click', () => {
+    const verseText = verseEl.textContent;
+    const encoded = encodeURIComponent(verseText);
+    const choice = prompt('Отправить через:\n1 — WhatsApp\n2 — Telegram');
+    if (choice === '1') {
+      window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
+    } else if (choice === '2') {
+      window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
+    } else {
+      alert('Отправка отменена.');
+    }
+  });
+}
+
+// Смена темы
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark');
@@ -69,6 +88,7 @@ if (themeToggle) {
   }
 }
 
+// Заставка + дата
 window.addEventListener('load', () => {
   const splash = document.getElementById('splashScreen');
   if (splash) {
@@ -83,5 +103,3 @@ window.addEventListener('load', () => {
     dateEl.textContent = today.toLocaleDateString('ru-RU', options);
   }
 });
-
-if
