@@ -1,10 +1,9 @@
-// Элементы страницы
 const verseEl = document.getElementById('dailyVerse');
 const speakBtn = document.getElementById('speakVerseBtn');
 const stopBtn = document.getElementById('stopSpeechBtn');
 const themeToggle = document.getElementById('themeToggle');
 
-// Загрузка Библии и выбор стиха дня
+// Загрузка стиха дня
 fetch('data/bible.json')
   .then(res => res.json())
   .then(data => {
@@ -21,54 +20,51 @@ fetch('data/bible.json')
       });
     });
 
-    if (allVerses.length === 0) {
-      verseEl.textContent = 'Библия загружена, но стихи отсутствуют 😢';
-      return;
-    }
-
-    const randomIndex = Math.floor(Math.random() * allVerses.length);
-    const selected = allVerses[randomIndex];
+    const rand = Math.floor(Math.random() * allVerses.length);
+    const selected = allVerses[rand];
     verseEl.textContent = `${selected.ref} — ${selected.text}`;
   })
   .catch(err => {
     verseEl.textContent = 'Не удалось загрузить стих 😢';
-    console.error('Ошибка загрузки bible.json:', err);
+    console.error(err);
   });
 
-// 🔊 Озвучка стиха
+// Озвучка
 if (speakBtn) {
   speakBtn.addEventListener('click', () => {
-    if (speechSynthesis.speaking) {
-      speechSynthesis.cancel(); // остановим текущую речь
-    }
-
+    speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(verseEl.textContent);
     utterance.lang = 'ru-RU';
     speechSynthesis.speak(utterance);
   });
 }
 
-// ⏹️ Остановка озвучки
+// Остановка озвучки
 if (stopBtn) {
   stopBtn.addEventListener('click', () => {
-    if (speechSynthesis.speaking) {
-      speechSynthesis.cancel();
-    }
+    speechSynthesis.cancel();
   });
 }
 
-// 🌙 Переключение темы
+// Тема
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark');
-    const isDark = document.body.classList.contains('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
   });
 
-  // Загрузка сохранённой темы при запуске
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme === 'dark') {
+  if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark');
   }
 }
+
+// Заставка
+window.addEventListener('load', () => {
+  const splash = document.getElementById('splashScreen');
+  if (splash) {
+    setTimeout(() => {
+      splash.style.display = 'none';
+    }, 2500);
+  }
+});
 
