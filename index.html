@@ -5,6 +5,7 @@
   <title>Свет Слова</title>
   <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="assets/icon-192.png">
 </head>
 <body>
   <h1>📘 Добро пожаловать в Свет Слова</h1>
@@ -20,7 +21,7 @@
   </div>
 
   <script>
-    // 🌓 Переключение темы
+    // 🌙 Переключение темы
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark');
@@ -36,7 +37,7 @@
         themeToggle.textContent = '☀️ Светлая тема';
       }
 
-      // 📖 Загрузка данных из Bible.json
+      // 📖 Загрузка bible.json
       fetch('data/bible.json')
         .then(res => res.json())
         .then(data => {
@@ -65,5 +66,6 @@
   </script>
 </body>
 </html>
+
 
 
