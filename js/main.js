@@ -3,7 +3,7 @@ const speakBtn = document.getElementById('speakVerseBtn');
 const stopBtn = document.getElementById('stopSpeechBtn');
 const themeToggle = document.getElementById('themeToggle');
 
-// Загрузка стиха дня
+// Загрузка Библии и случайный стих
 fetch('data/bible.json')
   .then(res => res.json())
   .then(data => {
@@ -20,16 +20,21 @@ fetch('data/bible.json')
       });
     });
 
-    const rand = Math.floor(Math.random() * allVerses.length);
-    const selected = allVerses[rand];
+    if (allVerses.length === 0) {
+      verseEl.textContent = 'Библия загружена, но стихи отсутствуют 😢';
+      return;
+    }
+
+    const randomIndex = Math.floor(Math.random() * allVerses.length);
+    const selected = allVerses[randomIndex];
     verseEl.textContent = `${selected.ref} — ${selected.text}`;
   })
   .catch(err => {
     verseEl.textContent = 'Не удалось загрузить стих 😢';
-    console.error(err);
+    console.error('Ошибка загрузки bible.json:', err);
   });
 
-// Озвучка
+// Озвучка стиха
 if (speakBtn) {
   speakBtn.addEventListener('click', () => {
     speechSynthesis.cancel();
@@ -46,7 +51,7 @@ if (stopBtn) {
   });
 }
 
-// Тема
+// Переключение темы
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
     document.body.classList.toggle('dark');
@@ -67,4 +72,5 @@ window.addEventListener('load', () => {
     }, 2500);
   }
 });
+
 
