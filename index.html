@@ -4,24 +4,23 @@
   <meta charset="UTF-8">
   <title>Свет Слова</title>
   <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <h1>Добро пожаловать в Свет Слова</h1>
+  <h1>📘 Добро пожаловать в Свет Слова</h1>
+
+  <a href="read.html"><button>📖 Читать Библию</button></a>
+
   <button id="themeToggle">🌙 Темная тема</button>
 
-  <div id="verseOfTheDay" class="verse-block">
-    <h2>📆 Стих дня</h2>
-    <p id="dailyVerse">Загрузка...</p>
-  </div>
-
-  <div style="text-align:center; margin-top: 30px;">
-    <a href="read.html">
-      <button style="font-size:18px; padding:12px 20px;">📖 Читать Библию</button>
-    </a>
+  <div class="verse-block" id="verseOfTheDay">
+    <h2>✨ Стих дня</h2>
+    <p class="verse" id="dailyVerse">Загрузка стиха...</p>
+    <button id="speakVerseBtn">🔊 Озвучить стих</button>
   </div>
 
   <script>
-    // Переключение темы
+    // 🌓 Переключение темы
     const themeToggle = document.getElementById('themeToggle');
     themeToggle.addEventListener('click', () => {
       document.body.classList.toggle('dark');
@@ -37,32 +36,34 @@
         themeToggle.textContent = '☀️ Светлая тема';
       }
 
-      // Загрузка стиха дня
+      // 📖 Загрузка данных из Bible.json
       fetch('data/bible.json')
-        .then(response => response.json())
+        .then(res => res.json())
         .then(data => {
-          const books = data.Books;
-          const randomBookIndex = Math.floor(Math.random() * books.length);
-          const book = books[randomBookIndex];
-
-          const chapterIndex = Math.floor(Math.random() * book.Chapters.length);
-          const chapter = book.Chapters[chapterIndex];
-
-          const verseIndex = Math.floor(Math.random() * chapter.Verses.length);
-          const verseObj = chapter.Verses[verseIndex];
-
-          const verseText = verseObj.Text;
-          const verseNumber = verseObj.VerseId || (verseIndex + 1);
-          const reference = `${book.BookName} ${chapterIndex + 1}:${verseNumber}`;
-
-          document.getElementById('dailyVerse').textContent = `${reference} — ${verseText}`;
-        })
-        .catch(error => {
-          document.getElementById('dailyVerse').textContent = 'Не удалось загрузить стих дня.';
-          console.error(error);
+          const allVerses = [];
+          data.Books.forEach(book => {
+            book.Chapters.forEach((chapter, chIdx) => {
+              chapter.Verses.forEach((v, vIdx) => {
+                const verseText = `${book.BookName} ${chIdx + 1}:${v.VerseId || vIdx + 1} — ${v.Text}`;
+                allVerses.push(verseText);
+              });
+            });
+          });
+          const random = allVerses[Math.floor(Math.random() * allVerses.length)];
+          document.getElementById('dailyVerse').textContent = random;
         });
+    });
+
+    // 🔊 Озвучка стиха
+    document.getElementById('speakVerseBtn').addEventListener('click', () => {
+      const verseText = document.getElementById('dailyVerse').textContent;
+      const utter = new SpeechSynthesisUtterance(verseText);
+      utter.lang = 'ru-RU';
+      utter.rate = 1;
+      speechSynthesis.speak(utter);
     });
   </script>
 </body>
 </html>
+
 
