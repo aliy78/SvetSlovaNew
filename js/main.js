@@ -3,6 +3,7 @@ const speakBtn = document.getElementById('speakVerseBtn');
 const stopBtn = document.getElementById('stopSpeechBtn');
 const themeToggle = document.getElementById('themeToggle');
 const refreshBtn = document.getElementById('refreshVerseBtn');
+const shareBtn = document.getElementById('shareVerseBtn');
 const dateEl = document.getElementById('currentDate');
 let allVerses = [];
 
@@ -71,7 +72,7 @@ if (themeToggle) {
   }
 }
 
-// Заставка + текущая дата
+// Отображение даты
 window.addEventListener('load', () => {
   const splash = document.getElementById('splashScreen');
   if (splash) {
@@ -80,13 +81,31 @@ window.addEventListener('load', () => {
     }, 2500);
   }
 
-  // Отображение даты
   if (dateEl) {
     const today = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
     dateEl.textContent = today.toLocaleDateString('ru-RU', options);
   }
 });
+
+// Поделиться стихом
+if (shareBtn) {
+  shareBtn.addEventListener('click', () => {
+    const verseText = verseEl.textContent;
+    const encoded = encodeURIComponent(verseText);
+
+    const choice = prompt('Отправить через:\n1 — WhatsApp\n2 — Telegram');
+
+    if (choice === '1') {
+      window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
+    } else if (choice === '2') {
+      window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
+    } else {
+      alert('Выбор не распознан. Попробуйте снова.');
+    }
+  });
+}
+
 
 
 
