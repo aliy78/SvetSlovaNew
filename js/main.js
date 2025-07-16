@@ -93,19 +93,8 @@ if (shareBtn) {
   shareBtn.addEventListener('click', () => {
     const verseText = verseEl.textContent;
     const encoded = encodeURIComponent(verseText);
-
     const choice = prompt('Отправить через:\n1 — WhatsApp\n2 — Telegram');
-
     if (choice === '1') {
       window.open(`https://api.whatsapp.com/send?text=${encoded}`, '_blank');
     } else if (choice === '2') {
-      window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
-    } else {
-      alert('Выбор не распознан. Попробуйте снова.');
-    }
-  });
-}
-
-
-
-
+      window.open(`https://
