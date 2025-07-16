@@ -3,53 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>Свет Слова</title>
 
-  <!-- 🎨 Стили -->
-  <link rel="stylesheet" href="css/style.css" />
-
-  <!-- 📲 PWA Manifest -->
+  <!-- 💡 Манифест и иконка -->
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#222" />
-
-  <!-- 🖼️ Иконка для браузера -->
   <link rel="icon" href="assets/icon-192.png" type="image/png" />
 
-  <!-- 🍎 iOS Splash -->
-  <link rel="apple-touch-icon" href="assets/icon-192.png" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-title" content="Свет Слова" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <!-- 🌗 Стили -->
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- 💻 Скрипты -->
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-  <main>
+  <header>
     <h1>📘 Свет Слова</h1>
+    <button id="themeToggle">🌙 Сменить тему</button>
+  </header>
 
-    <section id="controls">
-      <button id="themeToggle">🌙 Переключить тему</button>
-      <a href="read.html"><button>📖 Читать Библию</button></a>
-    </section>
-
-    <section id="verseSection">
-      <h2>✨ Стих дня</h2>
+  <main>
+    <section id="dailySection">
+      <h2>📖 Стих дня</h2>
       <p id="dailyVerse">Загрузка стиха...</p>
-      <button id="speakVerseBtn">🔊 Озвучить стих</button>
+
+      <div class="controls">
+        <button id="speakVerseBtn">🔊 Озвучить стих</button>
+        <button id="stopSpeechBtn">⏹️ Остановить озвучку</button>
+      </div>
     </section>
   </main>
 
-  <!-- 🔧 Скрипты -->
-  <script src="js/main.js" defer></script>
-
-  <!-- ⚙️ Service Worker -->
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-        .then(() => console.log('✅ Service Worker зарегистрирован'))
-        .catch(err => console.error('❌ Ошибка SW:', err));
-    }
-  </script>
+  <footer>
+    <p>© 2025 Свет Слова</p>
+  </footer>
 </body>
 </html>
+
 
 
 
