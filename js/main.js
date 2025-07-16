@@ -2,13 +2,21 @@ const verseEl = document.getElementById('dailyVerse');
 const speakBtn = document.getElementById('speakVerseBtn');
 const stopBtn = document.getElementById('stopSpeechBtn');
 const themeToggle = document.getElementById('themeToggle');
+const refreshBtn = document.getElementById('refreshVerseBtn');
+const dateEl = document.getElementById('currentDate');
+let allVerses = [];
 
-// Загрузка Библии и случайный стих
+function displayRandomVerse() {
+  if (allVerses.length === 0) return;
+  const randomIndex = Math.floor(Math.random() * allVerses.length);
+  const selected = allVerses[randomIndex];
+  verseEl.textContent = `${selected.ref} — ${selected.text}`;
+}
+
+// Загрузка Библии
 fetch('data/bible.json')
   .then(res => res.json())
   .then(data => {
-    const allVerses = [];
-
     data.Books.forEach(book => {
       book.Chapters.forEach(chapter => {
         chapter.Verses.forEach(verse => {
@@ -19,22 +27,14 @@ fetch('data/bible.json')
         });
       });
     });
-
-    if (allVerses.length === 0) {
-      verseEl.textContent = 'Библия загружена, но стихи отсутствуют 😢';
-      return;
-    }
-
-    const randomIndex = Math.floor(Math.random() * allVerses.length);
-    const selected = allVerses[randomIndex];
-    verseEl.textContent = `${selected.ref} — ${selected.text}`;
+    displayRandomVerse();
   })
   .catch(err => {
     verseEl.textContent = 'Не удалось загрузить стих 😢';
     console.error('Ошибка загрузки bible.json:', err);
   });
 
-// Озвучка стиха
+// Озвучка
 if (speakBtn) {
   speakBtn.addEventListener('click', () => {
     speechSynthesis.cancel();
@@ -51,6 +51,14 @@ if (stopBtn) {
   });
 }
 
+// Обновление стиха
+if (refreshBtn) {
+  refreshBtn.addEventListener('click', () => {
+    speechSynthesis.cancel();
+    displayRandomVerse();
+  });
+}
+
 // Переключение темы
 if (themeToggle) {
   themeToggle.addEventListener('click', () => {
@@ -63,7 +71,7 @@ if (themeToggle) {
   }
 }
 
-// Заставка
+// Заставка + текущая дата
 window.addEventListener('load', () => {
   const splash = document.getElementById('splashScreen');
   if (splash) {
@@ -71,6 +79,14 @@ window.addEventListener('load', () => {
       splash.style.display = 'none';
     }, 2500);
   }
+
+  // Отображение даты
+  if (dateEl) {
+    const today = new Date();
+    const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    dateEl.textContent = today.toLocaleDateString('ru-RU', options);
+  }
 });
+
 
 
