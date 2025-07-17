@@ -1,21 +1,20 @@
 const bookSelect = document.getElementById('bookSelect');
-const chaptersContainer = document.getElementById('chaptersContainer');
+const chapterSelect = document.getElementById('chapterSelect');
+const chapterText = document.getElementById('chapterText');
 
 let bibleData = null;
 
-// Загружаем bible.json
 fetch('data/bible.json')
-  .then(response => response.json())
+  .then(res => res.json())
   .then(data => {
     bibleData = data;
     populateBooks(data.Books);
   })
-  .catch(error => {
-    chaptersContainer.innerHTML = '<p style="color:red;">Ошибка загрузки Библии 😢</p>';
-    console.error('Ошибка загрузки bible.json:', error);
+  .catch(err => {
+    chapterText.innerHTML = '<p style="color:red;">Ошибка загрузки Библии.</p>';
+    console.error(err);
   });
 
-// Наполняем список книг
 function populateBooks(books) {
   bookSelect.innerHTML = '';
   books.forEach((book, index) => {
@@ -25,32 +24,41 @@ function populateBooks(books) {
     bookSelect.appendChild(option);
   });
 
-  // Отображаем первую книгу по умолчанию
-  showChapters(0);
+  populateChapters(0); // первая книга
 }
 
-// При смене книги
 bookSelect.addEventListener('change', () => {
-  const index = parseInt(bookSelect.value, 10);
-  showChapters(index);
+  populateChapters(bookSelect.value);
 });
 
-// Показываем главы и стихи выбранной книги
-function showChapters(bookIndex) {
+function populateChapters(bookIndex) {
   const book = bibleData.Books[bookIndex];
-  chaptersContainer.innerHTML = `<h2>${book.BookName}</h2>`;
+  chapterSelect.innerHTML = '';
 
-  book.Chapters.forEach(chapter => {
-    const chapterDiv = document.createElement('div');
-    chapterDiv.className = 'chapter-block';
-    chapterDiv.innerHTML = `<h3>Глава ${chapter.ChapterId}</h3>`;
+  book.Chapters.forEach((ch, i) => {
+    const option = document.createElement('option');
+    option.value = i;
+    option.textContent = `Глава ${ch.ChapterId}`;
+    chapterSelect.appendChild(option);
+  });
 
-    chapter.Verses.forEach(verse => {
-      const verseP = document.createElement('p');
-      verseP.textContent = `${chapter.ChapterId}:${verse.VerseId} — ${verse.Text}`;
-      chapterDiv.appendChild(verseP);
-    });
+  showChapter(bookIndex, 0); // первая глава
+}
 
-    chaptersContainer.appendChild(chapterDiv);
+chapterSelect.addEventListener('change', () => {
+  const bookIndex = bookSelect.value;
+  const chapterIndex = chapterSelect.value;
+  showChapter(bookIndex, chapterIndex);
+});
+
+function showChapter(bookIndex, chapterIndex) {
+  const book = bibleData.Books[bookIndex];
+  const chapter = book.Chapters[chapterIndex];
+  chapterText.innerHTML = `<h2>${book.BookName} — Глава ${chapter.ChapterId}</h2>`;
+
+  chapter.Verses.forEach(verse => {
+    const p = document.createElement('p');
+    p.textContent = `${chapter.ChapterId}:${verse.VerseId} — ${verse.Text}`;
+    chapterText.appendChild(p);
   });
 }
