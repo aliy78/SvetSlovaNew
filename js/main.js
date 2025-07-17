@@ -7,7 +7,7 @@ const themeToggle = document.getElementById('themeToggle');
 
 let allVerses = [];
 
-function updateDateDisplay() {
+function updateDailyDate() {
   const today = new Date();
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   dailyDate.textContent = `Сегодня — ${today.toLocaleDateString('ru-RU', options)}`;
@@ -18,10 +18,9 @@ function displayVerseOfDay() {
     verseEl.textContent = 'Нет доступных стихов.';
     return;
   }
-  const dateKey = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
-  let hash = 0;
-  for (let i = 0; i < dateKey.length; i++) hash += dateKey.charCodeAt(i);
-  const index = hash % allVerses.length;
+  const today = new Date();
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
+  const index = seed % allVerses.length;
   const selected = allVerses[index];
   verseEl.textContent = `${selected.ref} — ${selected.text}`;
 }
@@ -40,28 +39,29 @@ fetch('data/bible.json')
       });
     });
     displayVerseOfDay();
-    updateDateDisplay();
+    updateDailyDate();
   })
   .catch(err => {
     verseEl.textContent = 'Ошибка загрузки стиха.';
     console.error(err);
   });
 
+refreshBtn?.addEventListener('click', () => {
+  displayVerseOfDay();
+  updateDailyDate();
+});
+
 speakBtn?.addEventListener('click', () => {
   const utterance = new SpeechSynthesisUtterance(verseEl.textContent);
   utterance.lang = 'ru-RU';
+  speechSynthesis.cancel();
   speechSynthesis.speak(utterance);
-});
-
-refreshBtn?.addEventListener('click', () => {
-  displayVerseOfDay();
-  updateDateDisplay();
 });
 
 shareBtn?.addEventListener('click', () => {
   const text = verseEl.textContent;
-  const url = `https://t.me/share/url?url=&text=${encodeURIComponent(text)}`;
-  window.open(url, '_blank');
+  const encoded = encodeURIComponent(text);
+  window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
 });
 
 themeToggle?.addEventListener('click', () => {
