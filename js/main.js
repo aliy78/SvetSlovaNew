@@ -1,40 +1,44 @@
 const verseBlock = document.getElementById('verseOfDay');
 const dateBlock = document.getElementById('verseDate');
 
-fetch('data/bible.json')
-  .then(res => res.json())
-  .then(data => {
-    const allVerses = [];
+function refreshVerseOfDay() {
+  verseBlock.textContent = 'Обновление стиха...';
+  dateBlock.textContent = '';
 
-    // Собираем все стихи в один массив
-    data.Books.forEach(book => {
-      book.Chapters.forEach(ch => {
-        ch.Verses.forEach(v => {
-          allVerses.push({
-            ref: `${book.BookName} ${ch.ChapterId}:${v.VerseId}`,
-            text: v.Text
+  fetch('data/bible.json')
+    .then(res => res.json())
+    .then(data => {
+      const allVerses = [];
+
+      data.Books.forEach(book => {
+        book.Chapters.forEach(ch => {
+          ch.Verses.forEach(v => {
+            allVerses.push({
+              ref: `${book.BookName} ${ch.ChapterId}:${v.VerseId}`,
+              text: v.Text
+            });
           });
         });
       });
+
+      const today = new Date();
+      const dayOfYear = getDayOfYear(today);
+      const verse = allVerses[dayOfYear % allVerses.length];
+
+      verseBlock.textContent = `${verse.ref} — ${verse.text}`;
+      dateBlock.textContent = formatDate(today);
+    })
+    .catch(err => {
+      verseBlock.textContent = 'Ошибка загрузки стиха дня.';
+      console.error(err);
     });
+}
 
-    // Получаем номер текущего дня в году
-    const today = new Date();
-    const dayOfYear = getDayOfYear(today);
+// Автоматический запуск при загрузке
+document.addEventListener('DOMContentLoaded', () => {
+  refreshVerseOfDay();
+});
 
-    // Стих дня — по индексу
-    const verse = allVerses[dayOfYear % allVerses.length];
-
-    // Отображаем результат
-    verseBlock.textContent = `${verse.ref} — ${verse.text}`;
-    dateBlock.textContent = formatDate(today);
-  })
-  .catch(err => {
-    verseBlock.textContent = 'Ошибка загрузки стиха дня.';
-    console.error(err);
-  });
-
-// Получаем день года (0–365)
 function getDayOfYear(date) {
   const start = new Date(date.getFullYear(), 0, 0);
   const diff = date - start;
@@ -42,7 +46,6 @@ function getDayOfYear(date) {
   return Math.floor(diff / oneDay);
 }
 
-// Форматируем дату
 function formatDate(date) {
   return date.toLocaleDateString('ru-RU', {
     weekday: 'long',
