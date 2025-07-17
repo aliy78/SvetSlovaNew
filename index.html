@@ -1,12 +1,34 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <title>Простой текст Библии</title>
-  <script src="js/showBible.js" defer></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Свет Слова</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-  <h1>📖 Библия</h1>
-  <div id="bibleContainer">Загрузка...</div>
+  <header>
+    <h1>📘 Свет Слова</h1>
+    <p>Каждый день — новое вдохновение из Писания</p>
+  </header>
+
+  <main>
+    <section class="verse-day">
+      <h2>📖 Стих дня</h2>
+      <p id="verseDate">Загрузка даты...</p>
+      <p id="verseOfDay">Загрузка стиха...</p>
+      <button onclick="refreshVerseOfDay()" class="refresh-btn">🔁 Обновить стих</button>
+    </section>
+
+    <section class="read-block">
+      <h3>🚪 Перейти к чтению Библии</h3>
+      <a href="bible.html" class="read-btn">📘 Читать Библию</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© Свет Слова — дар вдохновения каждый день</p>
+  </footer>
 </body>
 </html>
