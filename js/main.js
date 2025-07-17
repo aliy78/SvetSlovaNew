@@ -18,22 +18,24 @@ function displayVerseOfDay() {
     verseEl.textContent = 'Нет доступных стихов.';
     return;
   }
+
   const today = new Date();
-  const seed = today.getFullYear() * 10000 + (today.getMonth()+1)*100 + today.getDate();
+  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
   const index = seed % allVerses.length;
   const selected = allVerses[index];
+
   verseEl.textContent = `${selected.ref} — ${selected.text}`;
 }
 
 fetch('data/bible.json')
-  .then(res => res.json())
+  .then(response => response.json())
   .then(data => {
     data.Books.forEach(book => {
-      book.Chapters.forEach(ch => {
-        ch.Verses.forEach(v => {
+      book.Chapters.forEach(chapter => {
+        chapter.Verses.forEach(verse => {
           allVerses.push({
-            ref: `${book.BookName} ${ch.ChapterId}:${v.VerseId}`,
-            text: v.Text
+            ref: `${book.BookName} ${chapter.ChapterId}:${verse.VerseId}`,
+            text: verse.Text
           });
         });
       });
@@ -41,9 +43,9 @@ fetch('data/bible.json')
     displayVerseOfDay();
     updateDailyDate();
   })
-  .catch(err => {
+  .catch(error => {
     verseEl.textContent = 'Ошибка загрузки стиха.';
-    console.error(err);
+    console.error('Ошибка загрузки Bible.json:', error);
   });
 
 refreshBtn?.addEventListener('click', () => {
@@ -59,9 +61,9 @@ speakBtn?.addEventListener('click', () => {
 });
 
 shareBtn?.addEventListener('click', () => {
-  const text = verseEl.textContent;
-  const url = `https://t.me/share/url?url=&text=${encodeURIComponent(text)}`;
-  window.open(url, '_blank');
+  const verseText = verseEl.textContent;
+  const encoded = encodeURIComponent(verseText);
+  window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
 });
 
 themeToggle?.addEventListener('click', () => {
