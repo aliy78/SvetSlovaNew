@@ -12,8 +12,8 @@ body.dark {
 }
 header, footer {
   text-align: center;
-  background-color: rgba(255,255,255,0.8);
   padding: 10px;
+  background-color: rgba(255,255,255,0.85);
 }
 main {
   padding: 20px;
@@ -39,7 +39,12 @@ button:hover {
 .verseDate {
   font-size: 1em;
   color: #666;
+  margin-bottom: 8px;
 }
-.icon {
+#dailyVerse {
   font-size: 1.2em;
+  margin-top: 10px;
+}
+.controls {
+  margin-top: 10px;
 }
