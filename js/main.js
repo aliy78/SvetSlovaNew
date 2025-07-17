@@ -1,12 +1,8 @@
 const verseEl = document.getElementById('dailyVerse');
 const dailyDate = document.getElementById('dailyDate');
-const speakBtn = document.getElementById('speakVerseBtn');
 const refreshBtn = document.getElementById('refreshVerseBtn');
-const aiInput = document.getElementById('aiInput');
-const aiSendBtn = document.getElementById('aiSendBtn');
-const aiChatResponse = document.getElementById('aiChatResponse');
-const themeToggle = document.getElementById('themeToggle');
-const dateEl = document.getElementById('currentDate');
+const speakBtn = document.getElementById('speakVerseBtn');
+const shareBtn = document.getElementById('shareVerseBtn');
 
 let allVerses = [];
 
@@ -21,12 +17,10 @@ function displayVerseOfDay() {
     verseEl.textContent = 'Нет доступных стихов.';
     return;
   }
-
   const today = new Date();
   const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
   const index = seed % allVerses.length;
   const selected = allVerses[index];
-
   verseEl.textContent = `${selected.ref} — ${selected.text}`;
 }
 
@@ -51,7 +45,12 @@ fetch('data/bible.json')
     console.error(err);
   });
 
-// Озвучка стиха
+refreshBtn?.addEventListener('click', () => {
+  displayVerseOfDay();
+  updateDailyDate();
+  speechSynthesis.cancel();
+});
+
 speakBtn?.addEventListener('click', () => {
   const utterance = new SpeechSynthesisUtterance(verseEl.textContent);
   utterance.lang = 'ru-RU';
@@ -59,33 +58,8 @@ speakBtn?.addEventListener('click', () => {
   speechSynthesis.speak(utterance);
 });
 
-// Обновление стиха (можно оставить кнопку, но стих будет тот же весь день)
-refreshBtn?.addEventListener('click', () => {
-  displayVerseOfDay();
-  updateDailyDate();
-  speechSynthesis.cancel();
+shareBtn?.addEventListener('click', () => {
+  const text = verseEl.textContent;
+  const encoded = encodeURIComponent(text);
+  window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
 });
-
-// Ответы AI
-aiSendBtn?.addEventListener('click', () => {
-  const q = aiInput.value.toLowerCase();
-  let a = '🙏 Я размышляю над этим...';
-
-  if (q.includes('спасение')) {
-    a = 'Спасение — это дар Бога, доступный каждому, кто верит с открытым сердцем.';
-  } else if (q.includes('любовь')) {
-    a = 'Любовь Божья безмерна. Она покрывает всё и ведёт к жизни.';
-  } else if (q.includes('псалом')) {
-    a = '«Господь — пастырь мой; я ни в чём не буду нуждаться» — Псалтирь 22:1';
-  }
-
-  aiChatResponse.textContent = a;
-});
-
-// Тема
-themeToggle?.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-  localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-});
-if (localStorage.getItem('theme') === 'dark') {
- 
