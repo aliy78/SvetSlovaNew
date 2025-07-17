@@ -4,41 +4,41 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Свет Слова</title>
-  <link rel="icon" href="assets/icon-192.png" />
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/main.js" defer></script>
 </head>
 <body>
-
   <header>
-    <h1>📘 Свет Слова</h1>
-    <button id="themeToggle">🌙 Сменить тему</button>
+    <h1>📘 Добро пожаловать в Свет Слова</h1>
+    <p>Каждый день — новое вдохновение из Писания</p>
   </header>
 
   <main>
-    <section id="dailySection">
+    <section>
       <h2>📖 Стих дня</h2>
-      <p id="dailyDate" class="verseDate">—</p>
-      <p id="dailyVerse">Загрузка стиха...</p>
-      <div class="controls">
-        <button id="speakVerseBtn">🔊 Озвучить</button>
-        <button id="refreshVerseBtn">🔁 Обновить</button>
-        <button id="shareVerseBtn">📤 Поделиться</button>
-      </div>
+      <p id="verseDate">Загрузка даты...</p>
+      <p id="verseOfDay">Загрузка стиха...</p>
+      <button onclick="refreshVerseOfDay()">🔁 Обновить стих дня</button>
     </section>
 
-    <section id="readBibleSection">
-      <h2>📘 Читать Библию</h2>
-      <p>Открой всё Писание для глубокого чтения</p>
-      <a href="bible.html" target="_blank">
-        <button id="readBibleBtn">📖 Открыть Библию</button>
-      </a>
+    <section class="input-block">
+      <h3>📝 Введите свой запрос</h3>
+      <input type="text" id="userInput" placeholder="Ваш текст..." />
+      <button onclick="processInput()">Отправить</button>
+    </section>
+
+    <section class="share-block">
+      <p>Поделиться сайтом:</p>
+      <a href="https://t.me/share/url?url=https://aliy78.github.io/SvetSlovaNew/" target="_blank">Telegram</a> |
+      <a href="https://vk.com/share.php?url=https://aliy78.github.io/SvetSlovaNew/" target="_blank">VK</a> |
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https://aliy78.github.io/SvetSlovaNew/" target="_blank">Facebook</a> |
+      <a href="https://twitter.com/intent/tweet?url=https://aliy78.github.io/SvetSlovaNew/" target="_blank">Twitter</a> |
+      <a href="https://wa.me/?text=https://aliy78.github.io/SvetSlovaNew/" target="_blank">WhatsApp</a>
     </section>
   </main>
 
   <footer>
-    <p>© 2025 Свет Слова</p>
+    <p>© Свет Слова — вдохновение на каждый день</p>
   </footer>
-
 </body>
 </html>
