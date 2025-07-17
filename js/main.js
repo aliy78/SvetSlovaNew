@@ -34,7 +34,6 @@ function refreshVerseOfDay() {
     });
 }
 
-// Автоматический запуск при загрузке
 document.addEventListener('DOMContentLoaded', () => {
   refreshVerseOfDay();
 });
