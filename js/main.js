@@ -3,6 +3,8 @@ const dailyDate = document.getElementById('dailyDate');
 const refreshBtn = document.getElementById('refreshVerseBtn');
 const speakBtn = document.getElementById('speakVerseBtn');
 const shareBtn = document.getElementById('shareVerseBtn');
+const themeToggle = document.getElementById('themeToggle');
+const dateEl = document.getElementById('currentDate');
 
 let allVerses = [];
 
@@ -10,6 +12,7 @@ function updateDailyDate() {
   const today = new Date();
   const options = { year: 'numeric', month: 'long', day: 'numeric' };
   dailyDate.textContent = `Сегодня — ${today.toLocaleDateString('ru-RU', options)}`;
+  dateEl.textContent = today.toLocaleDateString('ru-RU', options);
 }
 
 function displayVerseOfDay() {
@@ -63,3 +66,11 @@ shareBtn?.addEventListener('click', () => {
   const encoded = encodeURIComponent(text);
   window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
 });
+
+themeToggle?.addEventListener('click', () => {
+  document.body.classList.toggle('dark');
+  localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+});
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark');
+}
