@@ -1,52 +1,18 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Свет Слова</title>
-  <link rel="icon" href="assets/icon-192.png" type="image/png" />
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="js/main.js" defer></script>
-</head>
-<body>
-
-  <div id="splashScreen">
-    <h1>📘 Свет Слова</h1>
-    <p>Загрузка...</p>
-    <p id="currentDate" class="splashDate">—</p>
-    <blockquote class="verseQuote">
-      «В начале было Слово, и Слово было у Бога, и Слово было Бог»
-      <br><span>— Иоанн 1:1</span>
-    </blockquote>
+<section id="dailySection">
+  <h2>📖 Стих дня</h2>
+  <p id="dailyDate" class="verseDate">—</p>
+  <p id="dailyVerse">Загрузка стиха...</p>
+  <div class="controls">
+    <button id="speakVerseBtn">🔊 Озвучить</button>
+    <button id="refreshVerseBtn">🔁 Обновить</button>
+    <button id="shareVerseBtn"><span class="icon">📤</span> Поделиться</button>
   </div>
+</section>
 
-  <header>
-    <h1>Свет Слова</h1>
-    <button id="themeToggle">🌙 Сменить тему</button>
-  </header>
-
-  <main>
-    <section id="dailySection">
-      <h2>📖 Стих дня</h2>
-      <p id="dailyDate" class="verseDate">—</p>
-      <p id="dailyVerse">Загрузка стиха...</p>
-      <div class="controls">
-        <button id="speakVerseBtn">🔊 Озвучить</button>
-        <button id="refreshVerseBtn">🔁 Обновить стих</button>
-      </div>
-    </section>
-
-    <section id="chatSection">
-      <h2>🧠 Задать вопрос</h2>
-      <input type="text" id="aiInput" placeholder="Спроси о вере, спасении, любви..." />
-      <button id="aiSendBtn">📘 Спросить</button>
-      <div id="aiChatResponse" class="aiBox">—</div>
-    </section>
-  </main>
-
-  <footer>
-    <p>© 2025 Свет Слова</p>
-  </footer>
-
-</body>
-</html>
+<section id="readBibleSection">
+  <h2>📘 Читать Библию</h2>
+  <p>Открой всё Писание для углублённого чтения</p>
+  <a href="bible.html" target="_blank">
+    <button id="readBibleBtn">📖 Открыть Библию</button>
+  </a>
+</section>
