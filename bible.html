@@ -2,27 +2,32 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Чтение Библии</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Чтение Библии — Свет Слова</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="js/bible.js" defer></script>
 </head>
 <body>
-
   <header>
-    <h1>📘 Читать Библию</h1>
-    <p>Выберите книгу для чтения:</p>
-    <select id="bookSelect">
-      <option>Загрузка книг...</option>
-    </select>
+    <h1>📖 Чтение Библии</h1>
+    <p>Выбирай книгу, главу и делись стихами ✨</p>
   </header>
 
   <main>
-    <div id="chaptersContainer"></div>
+    <section class="selectors">
+      <label for="bookSelect">Книга:</label>
+      <select id="bookSelect"></select>
+
+      <label for="chapterSelect">Глава:</label>
+      <select id="chapterSelect"></select>
+    </section>
+
+    <section id="chapterText" class="text-block"></section>
+    <section id="searchResults"></section>
   </main>
 
   <footer>
-    <p>© 2025 Свет Слова</p>
+    <p>© Свет Слова — Писание ближе, чем когда-либо</p>
   </footer>
-
 </body>
 </html>
