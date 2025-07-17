@@ -1,71 +1,53 @@
-const verseEl = document.getElementById('dailyVerse');
-const dailyDate = document.getElementById('dailyDate');
-const speakBtn = document.getElementById('speakVerseBtn');
-const refreshBtn = document.getElementById('refreshVerseBtn');
-const shareBtn = document.getElementById('shareVerseBtn');
-const themeToggle = document.getElementById('themeToggle');
-
-let allVerses = [];
-
-function updateDailyDate() {
-  const today = new Date();
-  const options = { year: 'numeric', month: 'long', day: 'numeric' };
-  dailyDate.textContent = `Сегодня — ${today.toLocaleDateString('ru-RU', options)}`;
-}
-
-function displayVerseOfDay() {
-  if (allVerses.length === 0) {
-    verseEl.textContent = 'Нет доступных стихов.';
-    return;
-  }
-
-  const today = new Date();
-  const seed = today.getFullYear() * 10000 + (today.getMonth() + 1) * 100 + today.getDate();
-  const index = seed % allVerses.length;
-  const selected = allVerses[index];
-
-  verseEl.textContent = `${selected.ref} — ${selected.text}`;
-}
+const verseBlock = document.getElementById('verseOfDay');
+const dateBlock = document.getElementById('verseDate');
 
 fetch('data/bible.json')
-  .then(response => response.json())
+  .then(res => res.json())
   .then(data => {
+    const allVerses = [];
+
+    // Собираем все стихи в один массив
     data.Books.forEach(book => {
-      book.Chapters.forEach(chapter => {
-        chapter.Verses.forEach(verse => {
+      book.Chapters.forEach(ch => {
+        ch.Verses.forEach(v => {
           allVerses.push({
-            ref: `${book.BookName} ${chapter.ChapterId}:${verse.VerseId}`,
-            text: verse.Text
+            ref: `${book.BookName} ${ch.ChapterId}:${v.VerseId}`,
+            text: v.Text
           });
         });
       });
     });
-    displayVerseOfDay();
-    updateDailyDate();
+
+    // Получаем номер текущего дня в году
+    const today = new Date();
+    const dayOfYear = getDayOfYear(today);
+
+    // Стих дня — по индексу
+    const verse = allVerses[dayOfYear % allVerses.length];
+
+    // Отображаем результат
+    verseBlock.textContent = `${verse.ref} — ${verse.text}`;
+    dateBlock.textContent = formatDate(today);
   })
-  .catch(error => {
-    verseEl.textContent = 'Ошибка загрузки стиха.';
-    console.error('Ошибка загрузки Bible.json:', error);
+  .catch(err => {
+    verseBlock.textContent = 'Ошибка загрузки стиха дня.';
+    console.error(err);
   });
 
-refreshBtn?.addEventListener('click', () => {
-  displayVerseOfDay();
-  updateDailyDate();
-});
+// Получаем день года (0–365)
+function getDayOfYear(date) {
+  const start = new Date(date.getFullYear(), 0, 0);
+  const diff = date - start;
+  const oneDay = 1000 * 60 * 60 * 24;
+  return Math.floor(diff / oneDay);
+}
 
-speakBtn?.addEventListener('click', () => {
-  const utterance = new SpeechSynthesisUtterance(verseEl.textContent);
-  utterance.lang = 'ru-RU';
-  speechSynthesis.cancel();
-  speechSynthesis.speak(utterance);
-});
-
-shareBtn?.addEventListener('click', () => {
-  const verseText = verseEl.textContent;
-  const encoded = encodeURIComponent(verseText);
-  window.open(`https://t.me/share/url?url=&text=${encoded}`, '_blank');
-});
-
-themeToggle?.addEventListener('click', () => {
-  document.body.classList.toggle('dark');
-});
+// Форматируем дату
+function formatDate(date) {
+  return date.toLocaleDateString('ru-RU', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric'
+  });
+}
