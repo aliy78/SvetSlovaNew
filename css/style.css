@@ -1,63 +1,49 @@
-body {
-  margin: 0;
-  font-family: Georgia, serif;
-  background: url('../assets/background.jpg') no-repeat center center fixed;
-  background-size: cover;
-  color: #222;
-  transition: background-color 0.3s, color 0.3s;
+/* Кнопка Читать Библию */
+.read-btn {
+  display: inline-block;
+  padding: 14px 24px;
+  margin-top: 12px;
+  background: linear-gradient(135deg, #4b6cb7, #182848);
+  color: #fff;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.read-btn:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #3b5998, #1c2b52);
 }
 
-body.dark {
-  background-color: rgba(0,0,0,0.7);
-  background-blend-mode: darken;
-  color: #eee;
-}
-
-header, footer {
-  text-align: center;
-  padding: 10px;
-  background-color: rgba(255,255,255,0.85);
-}
-
-main {
-  padding: 20px;
-  background-color: rgba(255,255,255,0.85);
-  border-radius: 12px;
-  max-width: 700px;
-  margin: 30px auto;
-  text-align: center;
-}
-
-button {
-  padding: 10px 16px;
-  font-size: 1em;
+/* Кнопка Обновить стих */
+.refresh-btn {
+  padding: 8px 16px;
+  margin-top: 10px;
+  background-color: #f39c12;
+  color: #fff;
   border: none;
   border-radius: 6px;
-  background-color: #4b6cb7;
-  color: white;
   cursor: pointer;
-  margin: 5px;
-  transition: background-color 0.2s;
+  font-weight: bold;
+  transition: background 0.3s ease;
 }
-button:hover {
-  background-color: #3b5998;
-}
-
-.verseDate {
-  font-size: 1em;
-  color: #666;
-  margin-bottom: 8px;
+.refresh-btn:hover {
+  background-color: #d35400;
 }
 
-#dailyVerse {
-  font-size: 1.2em;
-  margin-top: 10px;
+/* Блок стиха дня */
+.verse-day {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fefefe;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.08);
+  max-width: 600px;
 }
 
-.controls {
-  margin-top: 10px;
-}
-
-#readBibleSection {
-  margin-top: 40px;
+/* Блок перехода */
+.read-block {
+  margin: 30px auto;
+  text-align: center;
+  max-width: 600px;
 }
