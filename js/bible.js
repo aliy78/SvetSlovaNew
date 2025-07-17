@@ -63,7 +63,7 @@ function showChapter(bookIndex, chapterIndex) {
   searchResults.innerHTML = '';
 }
 
-// 🔗 Кнопка «Поделиться» — открытие окна
+// 🔗 Кнопка «Поделиться»
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('shareUniversal')) {
     const text = e.target.dataset.text;
