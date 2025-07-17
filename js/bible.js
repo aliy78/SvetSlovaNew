@@ -6,9 +6,7 @@ fetch('data/bible.json')
     bibleData = data;
     populateBooks();
   })
-  .catch(err => {
-    console.error('Ошибка загрузки bible.json:', err);
-  });
+  .catch(err => console.error('Ошибка загрузки bible.json:', err));
 
 function populateBooks() {
   const bookSelect = document.getElementById('bookSelect');
@@ -52,19 +50,20 @@ function showChapter(bookIndex, chapterIndex) {
   chapter.Verses.forEach(verse => {
     const ref = `${book.BookName} ${chapter.ChapterId}:${verse.VerseId}`;
     const text = `${ref} — ${verse.Text}`;
-
     const p = document.createElement('p');
+
     p.innerHTML = `
       ${text}
       <button class="shareUniversal" data-text="${text}">📤 Поделиться</button>
     `;
+
     chapterText.appendChild(p);
   });
 
   searchResults.innerHTML = '';
 }
 
-// 🔗 Поделиться стихом — обработка кнопки
+// 🔗 Кнопка «Поделиться» — открытие окна
 document.addEventListener('click', (e) => {
   if (e.target.classList.contains('shareUniversal')) {
     const text = e.target.dataset.text;
@@ -75,19 +74,19 @@ document.addEventListener('click', (e) => {
 function showShareOptions(text) {
   const encoded = encodeURIComponent(text);
 
-  const optionsHtml = `
+  const html = `
     <div id="shareOverlay">
       <div class="sharePopup">
         <h3>📤 Поделиться стихом</h3>
         <a href="https://t.me/share/url?url=&text=${encoded}" target="_blank">Telegram</a><br>
         <a href="https://vk.com/share.php?url=&title=${encoded}" target="_blank">VK</a><br>
         <a href="https://wa.me/?text=${encoded}" target="_blank">WhatsApp</a><br>
-        <a href="#" onclick="copyText('${text}')">📋 Скопировать в буфер</a><br>
+        <a href="#" onclick="copyText('${text}')">📋 Скопировать</a><br>
         <button onclick="closeShare()">✖ Закрыть</button>
       </div>
     </div>
   `;
-  document.body.insertAdjacentHTML('beforeend', optionsHtml);
+  document.body.insertAdjacentHTML('beforeend', html);
 }
 
 function closeShare() {
