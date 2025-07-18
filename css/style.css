@@ -1,33 +1,86 @@
+/* Основной фон и шрифт */
 body {
-  background-image: url('../images/background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  font-family: sans-serif;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f4f4f4;
   margin: 0;
   padding: 0;
   color: #333;
 }
-body {
-  font-family: sans-serif;
-  background: #f4f4f4;
-  margin: 0;
-  padding: 0;
-  color: #333;
-}
+
+/* Шапка и подвал */
 header, footer {
-  background: #4b6cb7;
+  background-color: #4b6cb7;
   color: white;
   text-align: center;
   padding: 20px;
 }
+
+/* Основная область */
 main {
-  padding: 20px;
   max-width: 800px;
-  margin: auto;
+  margin: 30px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0,0,0,0.05);
 }
-h1, h2, h3 {
-  margin-bottom: 10px;
+
+/* Текстовое поле запроса */
+textarea#userInput {
+  width: 100%;
+  height: 120px;
+  padding: 15px;
+  font-size: 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  box-sizing: border-box;
+  margin-bottom: 15px;
+  transition: border-color 0.3s;
 }
-.selectors
+
+textarea#userInput:focus {
+  border-color: #4b6cb7;
+  outline: none;
+}
+
+/* Кнопка отправки */
+button#sendBtn {
+  background-color: #4b6cb7;
+  color: white;
+  padding: 12px 24px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button#sendBtn:hover {
+  background-color: #3a539b;
+}
+
+/* Блок ответа */
+#responseBlock {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-left: 4px solid #4b6cb7;
+  border-radius: 8px;
+}
+
+#responseBlock h2 {
+  margin-top: 0;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+  main {
+    margin: 20px;
+    padding: 15px;
+  }
+
+  button#sendBtn {
+    width: 100%;
+  }
+}
